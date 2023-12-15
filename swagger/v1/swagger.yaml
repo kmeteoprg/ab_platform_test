@@ -1,0 +1,63 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/tests_values/":
+    post:
+      summary: for_device ab_test
+      parameters:
+        - name: Device-Token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                button_color: '#00FF00'
+                price: '10'
+    get:
+      summary: statistic
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - title
+                    - total_count
+                    - count_by_options
+                  properties:
+                    title:
+                      type: string
+                      description: Название АБ-теста
+                      example: button_color
+                    total_count:
+                      type: integer
+                      description: Количество девайсов в тесте
+                      example: 3000
+                    count_by_options:
+                      type: object
+                      additionalProperties:
+                        type: integer
+                      example:
+                        "#FF0000": 1000
+                        "#00FF00": 1000
+                        "#0000FF": 1000
+servers:
+  - url: http://0.0.0.0:3000
+    variables:
+      defaultHost:
+        default: http://0.0.0.0:3000
